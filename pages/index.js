@@ -21,7 +21,7 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<h1>Aktueller Wert: {value}€</h1>
+			<h1>Current HOGE value: {value}€</h1>
 		</div>
 	);
 }
