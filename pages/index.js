@@ -1,6 +1,14 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
+import {
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  FormLabel,
+} from "@chakra-ui/react";
 
 export default function Home() {
   const [currentConversion, setCurrentConversion] = useState(0);
@@ -39,9 +47,10 @@ export default function Home() {
   }, []);
 
   const handleChange = (e) => {
-    setInputValue(e.target.value);
-    const sharehold = +inputValue / 425;
-    const profit = sharehold * profitInPercent * 100;
+    const thisValue = e;
+    setInputValue(thisValue);
+    const sharehold = +thisValue / 425;
+    const profit = (sharehold * value - thisValue).toFixed(2);
     setInputProfit(profit);
   };
 
@@ -57,8 +66,15 @@ export default function Home() {
       <h4>Earned in EUR: € {earnedInEur}</h4>
       <h4>Profit from initial investment: {profitInPercent}%</h4>
       <h4>Profit after transaction fees: {profitWithFeesInPercent}%</h4>
-      <input onChange={handleChange}></input>
-      <h4>{inputProfit}</h4>
+      <br />
+      <br />
+      <label>
+        <FormLabel>Your Share:</FormLabel>
+        <NumberInput min={0} onChange={handleChange}>
+          <NumberInputField />
+        </NumberInput>
+      </label>
+      <h4>Your Profit: € {inputProfit}</h4>
     </div>
   );
 }
