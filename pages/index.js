@@ -13,8 +13,14 @@ export default function Home() {
   const [inputProfit, setInputProfit] = useState(0);
 
   useEffect(async () => {
-    await fetch("/api/getCurrentValue").then(async (response) => {
-      const currentPrice = await response.text();
+    await fetch("/api/getDataFromServerFile").then(async (response) => {
+      const res = await JSON.parse(await response.text());
+      const currentPrice = res.currentConversion;
+      const earnedHoge = res.currentHoge;
+      const earnedHogeAsInt = parseInt(earnedHoge);
+      setCurrentBalance(earnedHogeAsInt);
+      const earnedInEur = (earnedHogeAsInt * currentConversion).toPrecision(2);
+      setEarnedInEur(earnedInEur);
       const currentPriceAsInt = +currentPrice;
       setCurrentConversion(currentPriceAsInt);
       const currentValue = (currentPriceAsInt * 1081428.793).toPrecision(5);
@@ -28,13 +34,7 @@ export default function Home() {
       buffer2 -= 1;
       const profitWithFeesInPercent = buffer2 * 100;
       setProfitWithFeesInPercent(profitWithFeesInPercent.toPrecision(4));
-    });
-    await fetch("/api/getEarnedHoge").then(async (response) => {
-      const earnedHoge = await response.text();
-      const earnedHogeAsInt = parseInt(earnedHoge);
-      setCurrentBalance(earnedHogeAsInt);
-      const earnedInEur = (earnedHogeAsInt * currentConversion).toPrecision(2);
-      setEarnedInEur(earnedInEur);
+      debugger;
     });
   }, []);
 
