@@ -9,6 +9,7 @@ export default function Home() {
   const [earnedInEur, setEarnedInEur] = useState(0);
   const [profitInPercent, setProfitInPercent] = useState();
   const [profitWithFeesInPercent, setProfitWithFeesInPercent] = useState(0);
+  const [lastUpdated, setLastUpdated] = useState("");
 
   const initialHoge = 1081429;
 
@@ -25,6 +26,7 @@ export default function Home() {
       const earnedHoge = currentHoge - initialHoge;
       const earnedInEur = (earnedHoge * currentPrice).toFixed(2);
       const currentValue = (currentPrice * currentHoge).toFixed(2);
+      setLastUpdated(res.lastUpdated);
       setValue(currentValue);
       setCurrentBalance(earnedHoge);
       setEarnedInEur(earnedInEur);
@@ -47,6 +49,7 @@ export default function Home() {
       <h4>Profit from initial investment: {profitInPercent}%</h4>
       <h4>Profit after transaction fees: {profitWithFeesInPercent}%</h4>
       <br />
+      <p>Last Updated: {lastUpdated}</p>
     </div>
   );
 }

@@ -9,11 +9,14 @@ export default async (req, res) => {
     url: "https://kvdb.io/EnEjHiXtEB7h7rnKvWwmZE/currentPrice",
     method: "get",
   });
-
-  console;
+  const lastUpdatedCall = await axios({
+    url: "https://kvdb.io/EnEjHiXtEB7h7rnKvWwmZE/lastUpdated",
+    method: "get",
+  });
 
   return res.status(200).send({
     currentHoge: currentHogeCall.data,
     currentConversion: currentConversionCall.data,
+    lastUpdated: lastUpdatedCall.data,
   });
 };
