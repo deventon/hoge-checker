@@ -1,14 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
-import {
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  FormLabel,
-} from "@chakra-ui/react";
 
 export default function Home() {
   const [currentConversion, setCurrentConversion] = useState(0);
@@ -17,42 +9,30 @@ export default function Home() {
   const [earnedInEur, setEarnedInEur] = useState(0);
   const [profitInPercent, setProfitInPercent] = useState();
   const [profitWithFeesInPercent, setProfitWithFeesInPercent] = useState(0);
-  const [inputValue, setInputValue] = useState("");
-  const [inputProfit, setInputProfit] = useState(0);
+
+  const initialHoge = 1081429;
+
+  const getProfitInPercent = (balance, investment) => {
+    const profit = balance / investment - 1;
+    return (profit * 100).toFixed(2);
+  };
 
   useEffect(async () => {
-    await fetch("/api/getDataFromServerFile").then(async (response) => {
-      const res = await JSON.parse(await response.text());
+    await fetch("/api/getDataFromDb").then(async (response) => {
+      const res = JSON.parse(await response.text());
       const currentPrice = res.currentConversion;
-      const earnedHoge = res.currentHoge;
-      const earnedHogeAsInt = parseInt(earnedHoge);
-      setCurrentBalance(earnedHogeAsInt);
-      const earnedInEur = (earnedHogeAsInt * currentConversion).toPrecision(2);
-      setEarnedInEur(earnedInEur);
-      const currentPriceAsInt = +currentPrice;
-      setCurrentConversion(currentPriceAsInt);
-      const currentValue = (currentPriceAsInt * 1081428.793).toPrecision(5);
+      const currentHoge = res.currentHoge.toFixed(0);
+      const earnedHoge = currentHoge - initialHoge;
+      const earnedInEur = (earnedHoge * currentPrice).toFixed(2);
+      const currentValue = (currentPrice * currentHoge).toFixed(2);
       setValue(currentValue);
-      let buffer = currentValue / 425;
-      buffer -= 1;
-      const profitInPercent = buffer * 100;
-      console.groupCollapsed(buffer);
-      setProfitInPercent(profitInPercent.toPrecision(4));
-      let buffer2 = currentValue / 352.7;
-      buffer2 -= 1;
-      const profitWithFeesInPercent = buffer2 * 100;
-      setProfitWithFeesInPercent(profitWithFeesInPercent.toPrecision(4));
-      debugger;
+      setCurrentBalance(earnedHoge);
+      setEarnedInEur(earnedInEur);
+      setCurrentConversion(currentPrice);
+      setProfitInPercent(getProfitInPercent(currentValue, 425));
+      setProfitWithFeesInPercent(getProfitInPercent(currentValue, 352.7));
     });
   }, []);
-
-  const handleChange = (e) => {
-    const thisValue = e;
-    setInputValue(thisValue);
-    const sharehold = +thisValue / 425;
-    const profit = (sharehold * value - thisValue).toFixed(2);
-    setInputProfit(profit);
-  };
 
   return (
     <div className={styles.container}>
@@ -67,14 +47,6 @@ export default function Home() {
       <h4>Profit from initial investment: {profitInPercent}%</h4>
       <h4>Profit after transaction fees: {profitWithFeesInPercent}%</h4>
       <br />
-      <br />
-      <label>
-        <FormLabel>Your Share:</FormLabel>
-        <NumberInput min={0} onChange={handleChange}>
-          <NumberInputField />
-        </NumberInput>
-      </label>
-      <h4>Your Profit: € {inputProfit}</h4>
     </div>
   );
 }

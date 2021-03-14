@@ -29,7 +29,6 @@ export default {
     const currentWalletBalanceAsInt = +currentWalletBalance;
     const currentWalletBalanceCorrected =
       currentWalletBalanceAsInt / 1000000000;
-    // const earnedHoge = currentWalletBalanceCorrected - 1080587;
     currentHoge = currentWalletBalanceCorrected;
     return currentWalletBalanceCorrected;
   },

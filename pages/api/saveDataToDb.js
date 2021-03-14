@@ -6,29 +6,29 @@ export default async (req, res) => {
   const currentPrice = await dataHelper.callCoinmarketcapApi();
 
   const etherscanConfig = {
-    url: "https://kvdb.io/EnEjHiXtEB7h7rnKvWwmZE/",
+    url: `https://kvdb.io/EnEjHiXtEB7h7rnKvWwmZE/currentHoge`,
     method: "post",
     headers: {
       "Content-Type": "application/json",
     },
-    data: {
-      txn: [{ set: "currentBalance", value: currentHoge }],
-    },
+    data: `${currentHoge}`,
   };
 
   const coinmarketcapConfig = {
-    url: "https://kvdb.io/EnEjHiXtEB7h7rnKvWwmZE/",
+    url: `https://kvdb.io/EnEjHiXtEB7h7rnKvWwmZE/currentPrice`,
     method: "post",
     headers: {
       "Content-Type": "application/json",
     },
-    data: {
-      txn: [{ set: "currentPrice", value: currentPrice }],
-    },
+    data: `${currentPrice}`,
   };
 
-  const etherscanResponse = await axios(etherscanConfig);
-  const coinmarketcapResponse = await axios(coinmarketcapConfig);
+  try {
+    const etherscanResponse = await axios(etherscanConfig);
+    const coinmarketcapResponse = await axios(coinmarketcapConfig);
+  } catch (ex) {
+    console.log(ex);
+  }
 
   return res.status(200).send([currentHoge, currentPrice]);
 };
