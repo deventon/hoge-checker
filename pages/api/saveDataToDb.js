@@ -1,4 +1,4 @@
-import dataHelper from "../dataHelper";
+import dataHelper from "../../utils/dataHelper";
 import axios from "axios";
 
 export default async (req, res) => {

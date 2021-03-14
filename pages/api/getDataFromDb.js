@@ -1,5 +1,3 @@
-import dataHelper from "../dataHelper";
-
 import axios from "axios";
 
 export default async (req, res) => {
