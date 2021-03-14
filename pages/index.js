@@ -10,6 +10,7 @@ export default function Home() {
   const [profitInPercent, setProfitInPercent] = useState();
   const [profitWithFeesInPercent, setProfitWithFeesInPercent] = useState(0);
   const [lastUpdated, setLastUpdated] = useState("");
+  const [priceIncrease, setPriceIncrease] = useState(true);
 
   const initialHoge = 1081429;
 
@@ -26,6 +27,7 @@ export default function Home() {
       const earnedHoge = currentHoge - initialHoge;
       const earnedInEur = (earnedHoge * currentPrice).toFixed(2);
       const currentValue = (currentPrice * currentHoge).toFixed(2);
+      setPriceIncrease(res.priceIncrease);
       setLastUpdated(res.lastUpdated);
       setValue(currentValue);
       setCurrentBalance(earnedHoge);
@@ -43,13 +45,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>Current HOGE value: € {value}</h1>
-      <h4>Earned HOGE through transactions: {currentBalance}</h4>
-      <h4>Earned in EUR: € {earnedInEur}</h4>
-      <h4>Profit from initial investment: {profitInPercent}%</h4>
-      <h4>Profit after transaction fees: {profitWithFeesInPercent}%</h4>
+      <h1 style={{ color: priceIncrease ? "green" : "red" }}>€ {value}</h1>
+      <h4>
+        HOGE from transactions: {currentBalance} (€ {earnedInEur})
+      </h4>
+      <h4>
+        Profit: {profitInPercent}% ({profitWithFeesInPercent}% with fees)
+      </h4>
       <br />
-      <p>Last Updated: {lastUpdated}</p>
+      <p>Last updated: {lastUpdated}</p>
     </div>
   );
 }
