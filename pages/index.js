@@ -59,9 +59,9 @@ export default function Home() {
       <h4>
         HOGE from transactions: {currentBalance} (€ {earnedInEur})
       </h4>
-      <h4>
+      {/* <h4>
         Profit: {profitInPercent}% ({profitWithFeesInPercent}% with fees)
-      </h4>
+      </h4> */}
       <br />
       <p>Last updated: {lastUpdated}</p>
     </div>
