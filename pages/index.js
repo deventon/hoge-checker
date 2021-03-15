@@ -19,7 +19,8 @@ export default function Home() {
     return (profit * 100).toFixed(2);
   };
 
-  useEffect(async () => {
+  const getDataFromDb = async () => {
+    console.log("tick!");
     await fetch("/api/getDataFromDb").then(async (response) => {
       const res = JSON.parse(await response.text());
       const currentPrice = res.currentConversion;
@@ -36,6 +37,15 @@ export default function Home() {
       setProfitInPercent(getProfitInPercent(currentValue, 425));
       setProfitWithFeesInPercent(getProfitInPercent(currentValue, 352.7));
     });
+  };
+
+  useEffect(() => {
+    getDataFromDb();
+    const refreshTimer = setInterval(() => {
+      getDataFromDb();
+    }, 30000);
+
+    return () => clearInterval(refreshTimer);
   }, []);
 
   return (
