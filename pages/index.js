@@ -12,7 +12,7 @@ export default function Home() {
   const [lastUpdated, setLastUpdated] = useState("");
   const [priceIncrease, setPriceIncrease] = useState(true);
 
-  const initialHoge = 1081429;
+  const initialHoge = 2323770;
 
   const getProfitInPercent = (balance, investment) => {
     const profit = balance / investment - 1;
