@@ -56,6 +56,7 @@ export default function Home() {
       </Head>
 
       <h1 style={{ color: priceIncrease ? "green" : "red" }}>€ {value}</h1>
+      <h3 style={{ color: priceIncrease ? "green" : "red", marginTop: "-25px" }}>€ {currentConversion.toFixed(7)}</h3>
       <h4>
         HOGE from transactions: {currentBalance} (€ {earnedInEur})
       </h4>
